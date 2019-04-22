@@ -1,6 +1,18 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from './views/Home.vue'
+import Home from '@/views/Home.vue'
+import Register from '@/views/Register.vue'
+import UserInformation from '@/views/UserInformation.vue'
+import Login from '@/views/Login.vue'
+
+import Chat from '@/views/Chat.vue'
+import Chatting from '@/views/Chatting.vue'
+import AddContact from '@/views/AddContact.vue'
+import Option from '@/views/Option.vue'
+import Contact from '@/views/Contact.vue'
+import Temp from '@/views/temp.vue'
+import AccountManage from '@/views/AccountManage.vue'
+
 
 Vue.use(Router)
 
@@ -20,6 +32,56 @@ export default new Router({
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
+    },
+    {
+      path: '/register',
+      name: 'register',
+      component: Register
+    },
+    {
+      path: "/chat",
+      name: "chat",
+      component: Chat
+    },
+    {
+      path: "/contact",
+      name: "contact",
+      component: Contact
+    },
+    {
+      path: "/option",
+      name: "option",
+      component: Option
+    },
+    {
+      path: "/temp",
+      name: "temp",
+      component: Temp
+    },
+    {
+      path: "/userinformation",
+      name: "userinformation",
+      component: UserInformation
+    },
+    {
+      path: "/accountManage",
+      name: "accountManage",
+      component: AccountManage
+    },
+    {
+      path: "/addcontact",
+      name: "addcontaact",
+      component: AddContact
+    },
+    {
+      path: "/chatting",
+      name: "chatting",
+      component: Chatting
+    },
+    {
+      path: "/login",
+      name: "login",
+      component: Login
     }
   ]
 })
