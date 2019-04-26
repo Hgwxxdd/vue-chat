@@ -1,12 +1,12 @@
 <template>
   <div>
     <div class="cell">
-      <div class="avatar">
-        <img :src="Avatar">
-      </div>
       <div class="information">
         <div class="triangle"></div>
         <div class="text">{{Message}}</div>
+      </div>
+      <div class="avatar">
+        <img :src="Avatar">
       </div>
     </div>
   </div>
@@ -38,8 +38,8 @@ export default {
 .avatar {
   width: 90px;
   height: 90px;
-  margin-left: 10px;
-  margin-right: 20px;
+  margin-left: 20px;
+  margin-right: 10px;
   border-radius: 45px;
   object-fit: cover;
   img {
@@ -73,8 +73,8 @@ export default {
     border-left: 18px solid transparent;
     border-right: 18px solid transparent;
     border-bottom: 30px solid #fff;
-    transform: rotate(-90deg);
-    left: -15px;
+    transform: rotate(90deg);
+    right: -15px;
     top: 10px;
   }
 }
@@ -86,6 +86,7 @@ export default {
   height: 120px;
   padding: 10px 15px;
   align-items: center;
+  justify-content: flex-end;
 }
 
 .text {

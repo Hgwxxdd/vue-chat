@@ -44,9 +44,12 @@ export default {
         }
       })
         .then(res => {
+          // console.log('here')
           if (res.status === 200) {
+            console.log(res.headers);
             this.$store.state.token = res.headers.authorization;
-            this.$router.push("/chat");
+            this.$store.state.userid = res.headers.userid;
+            this.$router.push("/chatting");
           }
         })
         .catch(err => {

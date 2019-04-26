@@ -7,9 +7,9 @@
     <contact
       v-show="contactList"
       v-for="(item, index) in contactList"
-      :name=item.name
-      :updated=item.updated
-      :message=item.LastMessage
+      :name=item.receiver
+      :updated=item.date
+      :message=item.message
       :avatar=item.avatar
       :key=index
       @chatting="toChatting"
@@ -37,6 +37,7 @@ export default {
   data() {
     return {
       show: false,
+      user: "",
       contactList: "",
       actions: [
         {
@@ -51,7 +52,7 @@ export default {
     };
   },
   mounted() {
-    this.getContact();
+    // this.getContact();
   },
   methods: {
     getContact() {
@@ -61,25 +62,12 @@ export default {
       jwtAxios
         .get("http://localhost:3000/user/recentchat")
         .then(res => {
-          console.log(res);
+          this.contactList = res.data;
         })
         .catch(err => {
           console.log(err);
+          this.$router.push("/login");
         });
-      // var that = this;
-      // axios
-      //   .get("http://localhost:3000/user/recentchat", {
-      //     params: {
-      //       userId: this.$store.state.userId,
-      //       sadsada: "asdasdasd"
-      //     }
-      //   })
-      //   .then(res => {
-      //     console.log(res);
-      //   })
-      //   .catch(err => {
-      //     console.log(err);
-      //   });
     },
     // getContact() {
     //   axios

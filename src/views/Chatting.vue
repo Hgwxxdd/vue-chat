@@ -1,6 +1,7 @@
 <template>
   <div class="container">
     <van-nav-bar
+      fixed
       title="标题"
       @click-left="back()"
     >
@@ -17,10 +18,32 @@
         slot="left"
       />
     </van-nav-bar>
-    <chatcard
-      message="asdasda"
-      avatar="../assets/1.jpg"
-    ></chatcard>
+    <div class="rolling">
+      <div
+        class="chatcard"
+        v-for="(item, index) in chatRecord"
+        :key="index"
+      >
+        <div
+          class="card-right"
+          v-if="item.from == userid"
+        >
+          <chatcardright
+            :avatar=item.from_avatar
+            :message=item.msg
+          ></chatcardright>
+        </div>
+        <div
+          class="card-left"
+          v-if="item.from != userid"
+        >
+          <chatcard
+            :avatar=item.from_avatar
+            :message=item.msg
+          ></chatcard>
+        </div>
+      </div>
+    </div>
     <div class="input-box">
       <van-field v-model="value" />
       <div
@@ -34,7 +57,7 @@
         <van-button
           type="info"
           size="small"
-          @click="qwe"
+          @click="sendMessage"
         >发送</van-button>
       </div>
       <div
@@ -51,27 +74,91 @@
         ></van-icon>
       </div>
     </div>
+    <div class="dot"></div>
   </div>
 </template>
 
 <script>
 import chatcard from "@/components/chatCard";
+import chatcardright from "@/components/chatCardRight";
+import io from "socket.io-client";
+import axios from "axios";
 
 export default {
   components: {
-    chatcard
+    chatcard,
+    chatcardright
   },
   data() {
     return {
-      value: ""
+      value: "",
+      chatRecord: "",
+      userid: "",
+      message: "",
+      currentUSer: "",
+      changeMsg: ""
     };
+  },
+  mounted() {
+    this.getRecord();
+    this.socket();
   },
   methods: {
     back() {
       this.$router.push("/chat");
     },
-    qwe() {
-      console.log("hi");
+    socket() {
+      const socket = io.connect("http://localhost:3000");
+      socket.on("message", msg => {
+        this.chatRecord.push(msg);
+        window.scrollTo(
+          0,
+          document.querySelector(".container").scrollHeight + 67
+        );
+      });
+    },
+    sendMessage() {
+      const socket = io.connect("http://localhost:3000");
+      socket.emit("message", {
+        from: this.currentUSer.from,
+        to: this.currentUSer.to,
+        from_avatar: this.currentUSer.from_avatar,
+        from_nickname: this.currentUSer.from_nickname,
+        msg: this.value,
+        send_time: Date.now()
+      });
+      this.value = "";
+    },
+    getRecord() {
+      var that = this;
+      this.userid = this.$store.state.userid;
+      var jwtAxios = axios.create({
+        headers: { Authorization: that.$store.state.token }
+      });
+      jwtAxios
+        .get("http://localhost:3000/user/chatting", {
+          params: {
+            userid: that.$store.state.userid
+          }
+        })
+        .then(res => {
+          console.log(res.data);
+          this.chatRecord = res.data;
+          for (let i = 0; i < res.data.length; i++) {
+            if (res.data[i].from == this.userid) {
+              this.currentUSer = res.data[i];
+              console.log(this.currentUSer);
+              // window.scrollTo(
+              //   0,
+              //   document.querySelector(".container").scrollHeight + 67
+              // );
+              break;
+            }
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
     }
   }
 };
@@ -80,15 +167,14 @@ export default {
 <style lang="scss" scoped>
 .container {
   position: absolute;
-  top: 0;
+
   left: 0;
   right: 0;
-  bottom: 0;
   background-color: #f0f2f8;
 }
 
 .input-box {
-  position: absolute;
+  position: fixed;
   left: 0;
   right: 0;
   bottom: 0;
@@ -127,5 +213,24 @@ export default {
 .van-button--small {
   min-width: 40px;
   padding: 0;
+}
+
+.rolling {
+  margin-top: 100px;
+  margin-bottom: 100px;
+}
+
+.card-right {
+  .van-cell {
+    text-align: right;
+  }
+}
+
+.van-nav-bar {
+  // margin-bottom: px;
+}
+
+.dot {
+  height: 1px;
 }
 </style>

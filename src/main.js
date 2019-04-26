@@ -3,8 +3,10 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import 'vant/lib/index.css'
-import {Field, Button, Cell, CellGroup, Tabbar, TabbarItem, Icon, List, NavBar, SwitchCell, Actionsheet, Toast, Tab, Tabs, Search} from 'vant'
 import 'lib-flexible/flexible.js'
+// import socket from '../socket';
+
+import {Field, Button, Cell, CellGroup, Tabbar, TabbarItem, Icon, List, NavBar, SwitchCell, Actionsheet, Toast, Tab, Tabs, Search} from 'vant'
 Vue.use(Tab)
 Vue.use(Tabs)
 Vue.use(Cell)
@@ -20,10 +22,6 @@ Vue.use(CellGroup)
 Vue.use(SwitchCell)
 Vue.use(TabbarItem)
 Vue.use(Actionsheet)
-// Vue
-//   .use(ContactCard)
-//   .use(ContactList)
-//   .use(ContactEdit)
 
 Vue.config.productionTip = false
 

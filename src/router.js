@@ -10,7 +10,7 @@ import Chatting from '@/views/Chatting.vue'
 import AddContact from '@/views/AddContact.vue'
 import Option from '@/views/Option.vue'
 import Contact from '@/views/Contact.vue'
-import Temp from '@/views/temp.vue'
+import Mock from '@/views/Mock.vue'
 import AccountManage from '@/views/AccountManage.vue'
 
 
@@ -54,9 +54,9 @@ export default new Router({
       component: Option
     },
     {
-      path: "/temp",
-      name: "temp",
-      component: Temp
+      path: "/mock",
+      name: "mock",
+      component: Mock
     },
     {
       path: "/userinformation",
