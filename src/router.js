@@ -1,17 +1,19 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/views/Home.vue'
+import Login from '@/views/Login.vue'
 import Register from '@/views/Register.vue'
 import UserInformation from '@/views/UserInformation.vue'
-import Login from '@/views/Login.vue'
 
 import Chat from '@/views/Chat.vue'
-import Chatting from '@/views/Chatting.vue'
-import AddContact from '@/views/AddContact.vue'
+import Mock from '@/views/Mock.vue'
 import Option from '@/views/Option.vue'
 import Contact from '@/views/Contact.vue'
-import Mock from '@/views/Mock.vue'
+import Chatting from '@/views/Chatting.vue'
+import DataCard from '@/views/DataCard.vue'
+import AddContact from '@/views/AddContact.vue'
 import AccountManage from '@/views/AccountManage.vue'
+import AddContactValidate from '@/views/AddContactValidate.vue'
 
 
 Vue.use(Router)
@@ -82,6 +84,16 @@ export default new Router({
       path: "/login",
       name: "login",
       component: Login
+    },
+    {
+      path: "/datacard",
+      name: "datacard",
+      component: DataCard
+    },
+    {
+      path: "/addcontactvalidate",
+      name: "addcontactvalidate",
+      component: AddContactValidate
     }
   ]
 })

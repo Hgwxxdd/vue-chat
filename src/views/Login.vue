@@ -44,12 +44,14 @@ export default {
         }
       })
         .then(res => {
-          // console.log('here')
+          console.log(res.data);
           if (res.status === 200) {
             console.log(res.headers);
-            this.$store.state.token = res.headers.authorization;
             this.$store.state.userid = res.headers.userid;
-            this.$router.push("/chatting");
+            this.$store.state.avatar = res.headers.avatar;
+            this.$store.state.nickname = res.headers.nickname;
+            this.$store.state.token = res.headers.authorization;
+            this.$router.push("/chat");
           }
         })
         .catch(err => {

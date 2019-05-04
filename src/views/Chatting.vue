@@ -92,9 +92,9 @@ export default {
   data() {
     return {
       value: "",
-      chatRecord: "",
       userid: "",
       message: "",
+      chatRecord: "",
       currentUSer: "",
       changeMsg: ""
     };
@@ -102,6 +102,8 @@ export default {
   mounted() {
     this.getRecord();
     this.socket();
+    // console.log(this.$store.state.chattingOne);
+    // console.log(this.$store.state.userid);
   },
   methods: {
     back() {
@@ -111,50 +113,41 @@ export default {
       const socket = io.connect("http://localhost:3000");
       socket.on("message", msg => {
         this.chatRecord.push(msg);
-        window.scrollTo(
-          0,
-          document.querySelector(".container").scrollHeight + 67
-        );
       });
     },
     sendMessage() {
       const socket = io.connect("http://localhost:3000");
-      socket.emit("message", {
-        from: this.currentUSer.from,
-        to: this.currentUSer.to,
-        from_avatar: this.currentUSer.from_avatar,
-        from_nickname: this.currentUSer.from_nickname,
-        msg: this.value,
-        send_time: Date.now()
-      });
+      socket.emit(
+        "message",
+        this.$store.state.userid,
+        this.$store.state.contact,
+        {
+          from: this.$store.state.userid,
+          to: this.$store.state.contact,
+          from_avatar: this.$store.state.avatar,
+          from_nickname: this.$store.state.nickname,
+          msg: this.value,
+          send_time: Date.now()
+        }
+      );
       this.value = "";
     },
     getRecord() {
-      var that = this;
-      this.userid = this.$store.state.userid;
       var jwtAxios = axios.create({
-        headers: { Authorization: that.$store.state.token }
+        headers: { Authorization: this.$store.state.token }
       });
       jwtAxios
         .get("http://localhost:3000/user/chatting", {
           params: {
-            userid: that.$store.state.userid
+            userid: this.$store.state.userid,
+            contact: this.$store.state.contact
           }
         })
         .then(res => {
-          console.log(res.data);
           this.chatRecord = res.data;
-          for (let i = 0; i < res.data.length; i++) {
-            if (res.data[i].from == this.userid) {
-              this.currentUSer = res.data[i];
-              console.log(this.currentUSer);
-              // window.scrollTo(
-              //   0,
-              //   document.querySelector(".container").scrollHeight + 67
-              // );
-              break;
-            }
-          }
+          console.log(res.data);
+          this.userid = this.$store.state.userid;
+          console.log(this.userid);
         })
         .catch(err => {
           console.log(err);
@@ -167,9 +160,10 @@ export default {
 <style lang="scss" scoped>
 .container {
   position: absolute;
-
+  top: 0;
   left: 0;
   right: 0;
+  bottom: 0;
   background-color: #f0f2f8;
 }
 
@@ -227,7 +221,7 @@ export default {
 }
 
 .van-nav-bar {
-  // margin-bottom: px;
+  margin-bottom: 10px;
 }
 
 .dot {

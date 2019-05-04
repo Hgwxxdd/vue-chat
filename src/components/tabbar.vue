@@ -4,6 +4,7 @@
       <van-tabbar-item
         icon="chat"
         to="/Chat"
+        :info.sync="unread == 0 ? '': unread"
       >聊天</van-tabbar-item>
       <van-tabbar-item
         icon="friends"
@@ -13,6 +14,7 @@
         icon="setting"
         to="/Option"
       >设置</van-tabbar-item>
+      <van-tabbar-item icon="star">空间</van-tabbar-item>
     </van-tabbar>
   </div>
 </template>
@@ -23,11 +25,15 @@ export default {
     active: {
       type: Number,
       required: true
+    },
+    unread: {
+      type: Number
     }
   },
   data() {
     return {
-      whichActive: this.active
+      whichActive: this.active,
+      chatinfo: this.unread
     };
   }
 };

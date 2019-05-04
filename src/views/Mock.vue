@@ -32,7 +32,7 @@ export default {
     getData() {
       axios
         .get(
-          "https://easy-mock.com/mock/5cb711a51a800d633780003a/contact/getChatRecord"
+          "https://easy-mock.com/mock/5cb711a51a800d633780003a/contact/getNotification"
         )
         .then(res => {
           this.chatRecord = res.data.data;
@@ -53,7 +53,7 @@ export default {
     insertChatRecord() {
       axios({
         method: "post",
-        url: "http://localhost:3000/mock/mockchatrecord",
+        url: "http://localhost:3000/mock/mocknotification",
         params: {
           message: this.chatRecord
         }

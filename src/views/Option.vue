@@ -24,7 +24,7 @@
     <van-cell
       icon="location-o"
       center
-      title="单元格"
+      title="我的空间"
       is-link
       value="内容"
     />

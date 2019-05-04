@@ -9,9 +9,15 @@
       </div>
       <div class="information">
         <div class="name">{{ Name }}</div>
-        <div class="message">{{ Message }}</div>
+        <div class="a">{{ Message }}</div>
       </div>
-      <div class="updated">{{ Updated }}</div>
+      <div class="tip">
+        <div class="updated">{{ Updated }}</div>
+        <div
+          v-show="Unread != 0"
+          class="unread"
+        >{{ Unread }}</div>
+      </div>
     </div>
   </div>
 </template>
@@ -20,20 +26,23 @@
 export default {
   props: {
     name: {
-      type: String,
-      required: true
+      type: String
+      // required: true
     },
     message: {
-      type: String,
-      required: true
+      type: String
+      // required: true
     },
     updated: {
-      type: String,
-      required: true
+      type: String
+      // required: true
     },
     avatar: {
-      type: String,
-      required: true
+      type: String
+      // required: true
+    },
+    unread: {
+      type: Number
     }
   },
   data() {
@@ -41,7 +50,8 @@ export default {
       Message: this.message,
       Name: this.name,
       Updated: this.updated,
-      Avatar: this.avatar
+      Avatar: this.avatar,
+      Unread: this.unread
     };
   },
   methods: {
@@ -69,9 +79,17 @@ export default {
 }
 
 .updated {
-  width: 150px;
-  height: 100px;
-  line-height: 100px;
+  width: 170px;
+  margin-bottom: 20px;
+}
+
+.unread {
+  width: 40px;
+  height: 30px;
+  border-radius: 15px;
+  background-color: #f44;
+  color: #fff;
+  margin-left: 120px;
 }
 
 .information {

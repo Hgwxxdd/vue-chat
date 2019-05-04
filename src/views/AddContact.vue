@@ -29,11 +29,13 @@
       </van-tab>
     </van-tabs>
     <div class="search-box">
-      <!-- <list
+      <list
         v-for="(item, index) in searchList"
-        :name=item.username
+        @chatting="checkData(item)"
+        :avatar=item.avatar
+        :name=item.nickname
         :key="index"
-      ></list> -->
+      ></list>
     </div>
   </div>
 </template>
@@ -43,7 +45,7 @@ import axios from "axios";
 import list from "@/components/contactList";
 
 export default {
-  component: {
+  components: {
     list
   },
   data() {
@@ -51,11 +53,11 @@ export default {
       active: 0,
       userAccount: "",
       groupAccount: "",
-      asd: "123"
+      searchList: ""
     };
   },
   watch: {
-    userAccount: val => {
+    userAccount: function(val) {
       axios({
         method: "get",
         url: "http://localhost:3000/user/search",
@@ -65,8 +67,7 @@ export default {
       })
         .then(res => {
           console.log(res.data);
-          console.log(this.asd);
-          // this.searchList = res.data;
+          this.searchList = res.data;
         })
         .catch(err => {
           console.log(err);
@@ -76,6 +77,11 @@ export default {
   methods: {
     onClickLeft() {
       this.$router.push("/chat");
+    },
+    checkData(user) {
+      console.log(user._id);
+      this.$store.state.findId = user.unique;
+      this.$router.push("/datacard");
     }
   }
 };
