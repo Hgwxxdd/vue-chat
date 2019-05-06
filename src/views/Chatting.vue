@@ -104,6 +104,10 @@ export default {
     this.socket();
     // console.log(this.$store.state.chattingOne);
     // console.log(this.$store.state.userid);
+    window.scrollTo(
+      document.querySelector(".container").scrollTop,
+      document.querySelector(".container").scrollHeight
+    );
   },
   methods: {
     back() {
@@ -113,6 +117,10 @@ export default {
       const socket = io.connect("http://localhost:3000");
       socket.on("message", msg => {
         this.chatRecord.push(msg);
+        window.scrollTo(
+          document.querySelector(".container").scrollTop,
+          document.querySelector(".container").scrollHeight + 100
+        );
       });
     },
     sendMessage() {
@@ -159,11 +167,6 @@ export default {
 
 <style lang="scss" scoped>
 .container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
   background-color: #f0f2f8;
 }
 

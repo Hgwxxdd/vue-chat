@@ -13,6 +13,7 @@ import Chatting from '@/views/Chatting.vue'
 import DataCard from '@/views/DataCard.vue'
 import AddContact from '@/views/AddContact.vue'
 import AccountManage from '@/views/AccountManage.vue'
+import Notification from '@/views/Notification.vue'
 import AddContactValidate from '@/views/AddContactValidate.vue'
 
 
@@ -94,6 +95,11 @@ export default new Router({
       path: "/addcontactvalidate",
       name: "addcontactvalidate",
       component: AddContactValidate
+    },
+    {
+      path: "/notification",
+      name: "notification",
+      component: Notification
     }
   ]
 })

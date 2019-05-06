@@ -4,14 +4,20 @@
       type="primary"
       plain
       hairline
-      @click="insertChatRecord"
-    >添加聊天记录</van-button>
+      @click="insertNotification"
+    >添加通知</van-button>
     <van-button
       plain
       hairline
       type="primary"
       @click="insertUser"
     >添加用户</van-button>
+    <van-button
+      plain
+      hairline
+      type="primary"
+      @click="insertChatRecord"
+    >添加聊天记录</van-button>
   </div>
 </template>
 
@@ -20,19 +26,31 @@ import axios from "axios";
 export default {
   data() {
     return {
-      chatRecord: "",
-      userRecord: ""
+      notification: "",
+      userRecord: "",
+      chatRecord: ""
     };
   },
   mounted() {
     this.getData();
     this.getUser();
+    this.getChatRecord();
   },
   methods: {
     getData() {
       axios
         .get(
           "https://easy-mock.com/mock/5cb711a51a800d633780003a/contact/getNotification"
+        )
+        .then(res => {
+          this.notification = res.data.data;
+          console.log(this.notification);
+        });
+    },
+    getChatRecord() {
+      axios
+        .get(
+          "https://easy-mock.com/mock/5cb711a51a800d633780003a/contact/getChatRecord"
         )
         .then(res => {
           this.chatRecord = res.data.data;
@@ -49,13 +67,13 @@ export default {
           console.log(this.userRecord);
         });
     },
-    // 插入聊天记录
-    insertChatRecord() {
+    // 插入通知
+    insertNotification() {
       axios({
         method: "post",
         url: "http://localhost:3000/mock/mocknotification",
         params: {
-          message: this.chatRecord
+          message: this.notification
         }
       }).then(res => {
         console.log(res);
@@ -67,6 +85,17 @@ export default {
         url: "http://localhost:3000/mock/mockuser",
         params: {
           message: this.userRecord
+        }
+      }).then(res => {
+        console.log(res);
+      });
+    },
+    insertChatRecord() {
+      axios({
+        method: "post",
+        url: "http://localhost:3000/mock/mockchatrecord",
+        params: {
+          message: this.chatRecord
         }
       }).then(res => {
         console.log(res);

@@ -8,15 +8,47 @@
         <img :src="Avatar">
       </div>
       <div class="information">
-        <div class="name">{{ Name }}</div>
-        <div class="a">{{ Message }}</div>
+        <div class="name">{{ name }}请求加宁为好友</div>
+        <div class="message">附加消息:{{ Message }}</div>
       </div>
-      <div class="tip">
-        <div class="updated">{{ Updated }}</div>
-        <div
-          v-show="Unread != 0"
-          class="unread"
-        >{{ Unread }}</div>
+      <div
+        class="agree"
+        v-if="Message_type == 1"
+      >
+        <!-- <div class="updated">2008-10-13</div> -->
+        <div class="tip">
+          <van-button
+            size="mini"
+            type="info"
+            @click="agree"
+          >同意</van-button>
+          <van-button
+            size="mini"
+            @click="disagree"
+          >拒绝</van-button>
+        </div>
+      </div>
+      <div
+        class="agree"
+        v-else-if="Message_type == 2"
+      >
+        <div class="tip">
+          <van-button
+            size="small"
+            disabled
+          >已同意</van-button>
+        </div>
+      </div>
+      <div
+        class="agree"
+        v-else-if="Message_type == 3"
+      >
+        <div class="tip">
+          <van-button
+            size="small"
+            disabled
+          >已拒绝</van-button>
+        </div>
       </div>
     </div>
   </div>
@@ -41,8 +73,8 @@ export default {
       type: String
       // required: true
     },
-    unread: {
-      type: Number
+    message_type: {
+      type: String
     }
   },
   data() {
@@ -51,26 +83,26 @@ export default {
       Name: this.name,
       Updated: this.updated,
       Avatar: this.avatar,
-      Unread: this.unread
+      Message_type: this.message_type
     };
   },
   watch: {
-    unread: {
+    message_type: {
       deep: true,
       handler(nv) {
-        this.Unread = nv;
-      }
-    },
-    message: {
-      deep: true,
-      handler(nv) {
-        this.Message = nv;
+        this.Message_type = nv;
       }
     }
   },
   methods: {
     click() {
       this.$emit("chatting");
+    },
+    agree() {
+      this.$emit("agree");
+    },
+    disagree() {
+      this.$emit("disagree");
     }
   }
 };
@@ -78,23 +110,22 @@ export default {
 
 <style lang="scss" scoped>
 .avatar {
-  width: 90px;
-  height: 90px;
-  margin-left: 10px;
-  margin-right: 20px;
-  border-radius: 45px;
+  width: 80px;
+  height: 80px;
+  border-radius: 40px;
   background-color: #333;
-  object-fit: cover;
   img {
     width: 100%;
     height: 100%;
     border-radius: 50%;
+    object-fit: cover;
   }
 }
 
 .updated {
-  width: 170px;
+  // width: 170px;
   margin-bottom: 20px;
+  text-align: center;
 }
 
 .unread {
@@ -112,17 +143,18 @@ export default {
   text-align: left;
 
   .name {
+    margin-left: 20px;
     height: 60px;
-    font-size: 32px;
+    font-size: 24px;
     overflow: hidden;
-    font-weight: 800;
     line-height: 60px;
     white-space: nowrap;
     text-overflow: ellipsis;
   }
   .message {
+    margin-left: 20px;
     height: 50px;
-    font-size: 26px;
+    font-size: 20px;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -147,5 +179,9 @@ export default {
   bottom: 0;
   transform: scaleY(0.5);
   border-bottom: 1px solid #ebedf0;
+}
+
+.tip {
+  display: flex;
 }
 </style>

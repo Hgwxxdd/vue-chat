@@ -65,10 +65,6 @@ export default {
     socket() {
       const socket = io.connect("http://localhost:3000");
       socket.on("message", data => {
-        // this.getContact();
-        var [...list] = this.contactList;
-        console.log(list);
-        console.log(this.contactList);
         for (let i = 0; i < this.contactList.length; i++) {
           if (
             (this.contactList[i].from == data.from &&
@@ -77,25 +73,26 @@ export default {
               this.contactList[i].to == data.from)
           ) {
             // 确定通信双方
-            // console.log(this.contactList[i]);
-            // 如果自己是from
-            // if (this.contactList[i].from == this.$store.state.userid) {
-            //   console.log("here");
-            //   this.contactList[i].msg = data.msg;
-            //   console.log(this.contactList[i].msg);
-            //   this.contactList[i].send_time = data.send_time.toString();
-            //   this.contactList[i].from_unread += 1;
-            //   // this.contactList = list;
-            // }
-            // // 如果自己是to
-            // if (this.contactList[i].to == this.$store.state.userid) {
-            //   // console.log("hi");
-            //   list[i].msg = data.msg;
-            //   list[i].send_time = data.send_time.toString();
-            //   list[i].to_unread += 1;
-            //   this.contactList = list;
-            //   console.log(this.contactList);
-            // }
+            // 如果自己是from;
+            if (
+              this.contactList[i].from == this.$store.state.userid &&
+              this.contactList[i].message_type == 0
+            ) {
+              this.contactList[i].msg = data.msg;
+              this.contactList[i].send_time = data.send_time.toString();
+              this.contactList[i].from_unread += 1;
+              this.unread += 1;
+            }
+            // 如果自己是to;
+            if (
+              this.contactList[i].to == this.$store.state.userid &&
+              this.contactList[i].message_type == 0
+            ) {
+              this.contactList[i].msg = data.msg;
+              this.contactList[i].send_time = data.send_time.toString();
+              this.contactList[i].to_unread += 1;
+              this.unread += 1;
+            }
           }
         }
       });
@@ -141,7 +138,6 @@ export default {
       this.show = true;
     },
     toChatting(user) {
-      console.log();
       if (this.$store.state.userid == user.from) {
         this.$store.state.contact = user.to;
       } else {
@@ -165,7 +161,11 @@ export default {
         .catch(err => {
           console.log(err);
         });
-      this.$router.push("/chatting");
+      if (user.message_type == 0) {
+        this.$router.push("/chatting");
+      } else if (user.message_type == 1) {
+        this.$router.push("/notification");
+      }
     }
   }
 };
