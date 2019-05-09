@@ -45,11 +45,11 @@
 
 <script>
 import axios from "axios";
+import io from "socket.io-client";
 export default {
   data() {
     return {
       msg: "",
-      // note: "",
       userData: ""
     };
   },
@@ -81,6 +81,14 @@ export default {
         .catch(err => {
           console.log(err);
         });
+      const socket = io.connect("http://localhost:3000");
+      socket.emit("notice", {
+        userid: id,
+        contact: this.userData.unique,
+        from_nickname: this.$store.state.nickname,
+        msg: id + "请求加宁为好友",
+        send_time: Date.now()
+      });
     },
     getData() {
       var id = this.$store.state.findId;

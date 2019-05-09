@@ -96,6 +96,9 @@ export default {
           }
         }
       });
+      socket.on("notice", obj => {
+        console.log(obj);
+      });
     },
     getContact() {
       var id = this.$store.state.userid;
@@ -132,6 +135,8 @@ export default {
       this.show = false;
       if (item.symbol === 1) {
         this.$router.push("/addcontact");
+      } else {
+        this.$router.push("/creategroup");
       }
     },
     add() {
@@ -152,7 +157,8 @@ export default {
         method: "post",
         params: {
           userid: id,
-          contact: this.$store.state.contact
+          contact: this.$store.state.contact,
+          message_type: user.message_type
         }
       })
         .then(res => {

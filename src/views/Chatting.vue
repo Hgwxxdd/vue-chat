@@ -1,5 +1,11 @@
 <template>
   <div class="container">
+    <div class="img">
+      <img
+        src=""
+        id="gogogo"
+      >
+    </div>
     <van-nav-bar
       fixed
       title="标题"
@@ -7,13 +13,13 @@
     >
       <van-icon
         size="18px"
-        color="#333"
+        color="#999"
         name="user-o"
         slot="right"
       />
       <van-icon
         size="18px"
-        color="#333"
+        color="#999"
         name="arrow-left"
         slot="left"
       />
@@ -31,6 +37,7 @@
           <chatcardright
             :avatar=item.from_avatar
             :message=item.msg
+            :image=item.image
           ></chatcardright>
         </div>
         <div
@@ -40,49 +47,78 @@
           <chatcard
             :avatar=item.from_avatar
             :message=item.msg
+            :image=item.image
           ></chatcard>
         </div>
       </div>
     </div>
     <div class="input-box">
-      <van-field v-model="value" />
-      <div
-        class="icon-right"
-        v-if="value"
-      >
-        <van-icon
-          name="smile-o"
-          size="24px"
-        ></van-icon>
-        <van-button
-          type="info"
-          size="small"
-          @click="sendMessage"
-        >发送</van-button>
+      <div class="input">
+        <input
+          type="text"
+          v-model="value"
+        >
+        <input
+          type="file"
+          accept="image/*"
+          id="image"
+          @change="postImage"
+        >
       </div>
-      <div
-        class="icon-right"
-        v-else
-      >
-        <van-icon
-          name="smile-o"
-          size="24px"
-        ></van-icon>
-        <van-icon
-          name="add-o"
-          size="24px"
-        ></van-icon>
+
+      <div class="send">
+        <button @click="sendMessage">发送</button>
       </div>
     </div>
-    <div class="dot"></div>
+    <div class="option">
+      <div
+        class="emoji-list"
+        v-if="emojiVisible"
+      >
+        <span
+          v-for="item in emoji.people"
+          :key="item"
+          @click="addEmoji(item)"
+        >{{item}}</span>
+        <span
+          v-for="item in emoji.nature"
+          :key="item"
+          @click="addEmoji(item)"
+        >{{item}}</span>
+        <span
+          v-for="item in emoji.items"
+          :key="item"
+          @click="addEmoji(item)"
+        >{{item}}</span>
+        <span
+          v-for="item in emoji.place"
+          :key="item"
+          @click="addEmoji(item)"
+        >{{item}}</span>
+      </div>
+      <div class="icon">
+        <van-icon
+          name="smile-o"
+          size="24px"
+          @click="here"
+        ></van-icon>
+        <label for="image">
+          <van-icon
+            name="photo-o"
+            size="24px"
+          ></van-icon>
+        </label>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import chatcard from "@/components/chatCard";
-import chatcardright from "@/components/chatCardRight";
-import io from "socket.io-client";
 import axios from "axios";
+import io from "socket.io-client";
+import chatcard from "@/components/chatCard";
+import emoji from "@/utils/emoji";
+import chatcardright from "@/components/chatCardRight";
 
 export default {
   components: {
@@ -94,34 +130,37 @@ export default {
       value: "",
       userid: "",
       message: "",
-      chatRecord: "",
+      chatRecord: [],
       currentUSer: "",
-      changeMsg: ""
+      changeMsg: "",
+      emoji: emoji,
+      emojiVisible: false,
+      image: {},
+      fuck: {}
     };
   },
   mounted() {
     this.getRecord();
     this.socket();
-    // console.log(this.$store.state.chattingOne);
-    // console.log(this.$store.state.userid);
-    window.scrollTo(
-      document.querySelector(".container").scrollTop,
-      document.querySelector(".container").scrollHeight
-    );
+    this.scroll();
+  },
+  watch: {
+    chatRecord: function(val) {
+      this.$nextTick(() => {
+        window.scrollTo(0, 80 * val.length);
+      });
+    }
   },
   methods: {
-    back() {
-      this.$router.push("/chat");
-    },
-    socket() {
-      const socket = io.connect("http://localhost:3000");
-      socket.on("message", msg => {
-        this.chatRecord.push(msg);
-        window.scrollTo(
-          document.querySelector(".container").scrollTop,
-          document.querySelector(".container").scrollHeight + 100
-        );
+    postImage() {
+      var reader = new FileReader();
+      var that = this;
+      var image = document.querySelector("input[type=file]").files[0];
+      reader.addEventListener("load", () => {
+        that.image = reader.result;
+        this.sendMessage();
       });
+      reader.readAsDataURL(image);
     },
     sendMessage() {
       const socket = io.connect("http://localhost:3000");
@@ -134,11 +173,34 @@ export default {
           to: this.$store.state.contact,
           from_avatar: this.$store.state.avatar,
           from_nickname: this.$store.state.nickname,
+          image: this.image,
           msg: this.value,
           send_time: Date.now()
         }
       );
       this.value = "";
+    },
+    addEmoji(item) {
+      this.value += item;
+      this.emojiVisible = false;
+    },
+    here() {
+      this.emojiVisible = !this.emojiVisible;
+    },
+    back() {
+      this.$router.push("/chat");
+    },
+    scroll() {
+      if (this.chatRecord) {
+        window.scrollTo(0, 80 * this.chatRecord.length);
+      }
+    },
+    socket() {
+      const socket = io.connect("http://localhost:3000");
+      socket.on("message", msg => {
+        console.log(msg);
+        this.chatRecord.push(msg);
+      });
     },
     getRecord() {
       var jwtAxios = axios.create({
@@ -167,29 +229,71 @@ export default {
 
 <style lang="scss" scoped>
 .container {
-  background-color: #f0f2f8;
+  background-color: #fff;
+  overflow-y: scroll;
+}
+
+.option {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background-color: #ccc;
+  .icon {
+    display: flex;
+    align-items: center;
+    background-color: #f0f2f8;
+    height: 60px;
+
+    label {
+      display: flex;
+      align-items: center;
+    }
+
+    .van-icon {
+      margin-left: 10px;
+    }
+  }
 }
 
 .input-box {
   position: fixed;
   left: 0;
   right: 0;
-  bottom: 0;
+  bottom: 59px;
   display: flex;
   align-items: center;
+  justify-content: space-around;
   height: 60px;
-  padding: 16px 0;
+  padding: 22px 0 10px 0;
   background-color: #f0f2f8;
 
-  .icon-right {
-    display: flex;
-    align-items: center;
-    .van-icon {
-      width: 50px;
+  .input {
+    width: 76%;
+    border-radius: 40px;
+    background-color: #fff;
+    height: 68px;
+    margin-right: 20px;
+    margin-left: 20px;
+    outline: none;
+    input {
+      width: 85%;
+      margin-top: 5px;
+      margin-left: 15px;
+      margin-right: 50px;
+      font-size: 28px;
+      color: #323233;
     }
+  }
 
-    .van-button {
-      width: 50px;
+  .send {
+    width: 140px;
+    button {
+      padding: 16px 38px;
+      height: 68px;
+      background-color: #1989fa;
+      border-radius: 40px;
+      color: #fff;
+      font-size: 25px;
     }
   }
 }
@@ -208,13 +312,12 @@ export default {
 }
 
 .van-button--small {
-  min-width: 40px;
-  padding: 0;
+  min-width: 45px;
 }
 
 .rolling {
   margin-top: 100px;
-  margin-bottom: 100px;
+  margin-bottom: 150px;
 }
 
 .card-right {
@@ -229,5 +332,22 @@ export default {
 
 .dot {
   height: 1px;
+}
+
+.emoji-list {
+  display: flex;
+  width: 100%;
+  height: 300px;
+  bottom: 150px;
+  position: fixed;
+  flex-wrap: wrap;
+  overflow-x: scroll;
+  background-color: #f0f2f8;
+  span {
+    width: 82px;
+    height: 82px;
+    font-size: 45px;
+    line-height: 82px;
+  }
 }
 </style>

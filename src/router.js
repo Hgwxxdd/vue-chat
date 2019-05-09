@@ -12,8 +12,9 @@ import Contact from '@/views/Contact.vue'
 import Chatting from '@/views/Chatting.vue'
 import DataCard from '@/views/DataCard.vue'
 import AddContact from '@/views/AddContact.vue'
-import AccountManage from '@/views/AccountManage.vue'
+import CreateGroup from '@/views/CreateGroup.vue'
 import Notification from '@/views/Notification.vue'
+import AccountManage from '@/views/AccountManage.vue'
 import AddContactValidate from '@/views/AddContactValidate.vue'
 
 
@@ -100,6 +101,11 @@ export default new Router({
       path: "/notification",
       name: "notification",
       component: Notification
+    },
+    {
+      path: "/creategroup",
+      name: "creategroup",
+      component: CreateGroup
     }
   ]
 })

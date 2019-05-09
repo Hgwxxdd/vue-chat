@@ -23,6 +23,7 @@
 
 <script>
 import axios from "axios";
+// import io from "socket.io-client";
 export default {
   data() {
     return {
@@ -32,11 +33,16 @@ export default {
     };
   },
   mounted() {
-    this.getData();
+    this.socket();
     this.getUser();
+    this.getData();
     this.getChatRecord();
   },
   methods: {
+    socket() {
+      // const socket = io.connect("http://localhost:3000");
+      console.log(this.$store.state.userid);
+    },
     getData() {
       axios
         .get(

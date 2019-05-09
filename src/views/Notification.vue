@@ -25,6 +25,7 @@
 
 <script>
 import axios from "axios";
+import io from "socket.io-client";
 import notificationlist from "@/components/NotificationList.vue";
 export default {
   components: {
@@ -79,6 +80,15 @@ export default {
           message_type: message_type
         }
       });
+      // socket 通知服务器
+      const socket = io.connect("http://localhost:3000");
+      socket.emit("notice", {
+        from: user.from,
+        from_nickname: user.from_nickname,
+        to: id,
+        send_time: Date.now()
+      });
+      // 添加好友关系
     },
     disagree(user) {
       user.message_type = "3";
@@ -96,6 +106,14 @@ export default {
           contact: contact,
           message_type: message_type
         }
+      });
+      // 通知服务器
+      const socket = io.connect("http://localhost:3000");
+      socket.emit("notice", {
+        from: user.from,
+        from_nickname: contact,
+        to: id,
+        send_time: Date.now()
       });
     }
   }

@@ -6,7 +6,14 @@
       </div>
       <div class="information">
         <div class="triangle"></div>
-        <div class="text">{{Message}}</div>
+        <div
+          v-if="Message"
+          class="text"
+        >{{Message}}</div>
+        <div
+          v-else
+          class="text"
+        ><img :src=Image></div>
       </div>
     </div>
   </div>
@@ -16,19 +23,22 @@
 export default {
   props: {
     message: {
-      type: String,
-      required: true
+      type: String
     },
     avatar: {
       type: String,
       required: true
+    },
+    image: {
+      type: String
     }
   },
   data() {
     return {
       Name: this.name,
       Avatar: this.avatar,
-      Message: this.message
+      Message: this.message,
+      Image: this.image
     };
   }
 };
@@ -64,7 +74,7 @@ export default {
   padding-right: 30px;
   align-items: center;
   border-radius: 24px;
-  background-color: #fff;
+  background-color: #f0f2f8;
 
   .triangle {
     position: absolute;
@@ -72,7 +82,7 @@ export default {
     height: 0;
     border-left: 18px solid transparent;
     border-right: 18px solid transparent;
-    border-bottom: 30px solid #fff;
+    border-bottom: 30px solid #f0f2f8;
     transform: rotate(-90deg);
     left: -15px;
     top: 10px;
