@@ -17,7 +17,6 @@ import Notification from '@/views/Notification.vue'
 import AccountManage from '@/views/AccountManage.vue'
 import AddContactValidate from '@/views/AddContactValidate.vue'
 
-
 Vue.use(Router)
 
 export default new Router({

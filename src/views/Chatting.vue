@@ -1,10 +1,33 @@
 <template>
   <div class="container">
-    <div class="img">
-      <img
-        src=""
-        id="gogogo"
-      >
+    <!-- 录音提醒 -->
+    <div
+      class="audio-remind"
+      v-if="audioVisible"
+    >
+      <div class="icon">
+        <van-icon
+          name="volume-o"
+          size="60px"
+        ></van-icon>
+        <div class="audio-text">
+          正在录音中
+        </div>
+        <div class="audio-choose">
+          <van-button
+            size="small"
+            type="info"
+            round
+            @click="sendAudio()"
+          >发送</van-button>
+          <van-button
+            size="small"
+            round
+            @click="undoSend()"
+          >取消</van-button>
+        </div>
+      </div>
+
     </div>
     <van-nav-bar
       fixed
@@ -38,6 +61,9 @@
             :avatar=item.from_avatar
             :message=item.msg
             :image=item.image
+            :audio=item.audio
+            :file=item.file
+            :filename=item.filename
           ></chatcardright>
         </div>
         <div
@@ -48,6 +74,9 @@
             :avatar=item.from_avatar
             :message=item.msg
             :image=item.image
+            :audio=item.audio
+            :file=item.file
+            :filename=item.filename
           ></chatcard>
         </div>
       </div>
@@ -64,10 +93,15 @@
           id="image"
           @change="postImage"
         >
+        <input
+          type="file"
+          id="doc"
+          @change="postDoc"
+        >
       </div>
 
       <div class="send">
-        <button @click="sendMessage">发送</button>
+        <button @click="sendMessage()">发送</button>
       </div>
     </div>
     <div class="option">
@@ -98,16 +132,28 @@
       </div>
       <div class="icon">
         <van-icon
-          name="smile-o"
-          size="24px"
-          @click="here"
-        ></van-icon>
+          name="bullhorn-o"
+          size="22px"
+          @click="addAudio()"
+        >
+        </van-icon>
         <label for="image">
           <van-icon
             name="photo-o"
-            size="24px"
+            size="22px"
           ></van-icon>
         </label>
+        <label for="doc">
+          <van-icon
+            name="peer-pay"
+            size="22px"
+          ></van-icon>
+        </label>
+        <van-icon
+          name="smile-o"
+          size="22px"
+          @click="emojiChoose()"
+        ></van-icon>
       </div>
     </div>
   </div>
@@ -119,7 +165,7 @@ import io from "socket.io-client";
 import chatcard from "@/components/chatCard";
 import emoji from "@/utils/emoji";
 import chatcardright from "@/components/chatCardRight";
-
+import Recorder, { ENCODE_TYPE } from "recorderx";
 export default {
   components: {
     chatcard,
@@ -135,8 +181,13 @@ export default {
       changeMsg: "",
       emoji: emoji,
       emojiVisible: false,
-      image: {},
-      fuck: {}
+      image: "",
+      // audio: "",
+      audioFile: "",
+      recorder: "",
+      audioVisible: false,
+      file: "",
+      filename: ""
     };
   },
   mounted() {
@@ -152,39 +203,100 @@ export default {
     }
   },
   methods: {
+    sendAudio() {
+      this.audioVisible = false;
+      this.recorder.pause();
+      var audio = this.recorder.getRecord({
+        encodeTo: ENCODE_TYPE.WAV,
+        compressible: true
+      });
+      var reader = new FileReader();
+      // var that = this;
+      reader.addEventListener("load", () => {
+        this.audioFile = reader.result;
+        this.sendMessage();
+        this.recorder.clear();
+      });
+      reader.readAsDataURL(audio);
+
+      // this.audioFile = URL.createObjectURL(
+      //   this.recorder.getRecord({
+      //     encodeTo: ENCODE_TYPE.WAV,
+      //     compressible: true
+      //   })
+      // );
+      // this.sendMessage();
+      // this.recorder.clear();
+    },
+    undoSend() {
+      this.audioVisible = false;
+      this.recorder.clear();
+    },
+    addAudio() {
+      this.audioVisible = true;
+      this.$nextTick(() => {
+        this.recorder = new Recorder();
+        this.recorder.start();
+      });
+    },
     postImage() {
       var reader = new FileReader();
       var that = this;
-      var image = document.querySelector("input[type=file]").files[0];
+      var image = document.querySelector("#image").files[0];
       reader.addEventListener("load", () => {
         that.image = reader.result;
         this.sendMessage();
       });
       reader.readAsDataURL(image);
     },
+    postDoc() {
+      var reader = new FileReader();
+      var that = this;
+      var doc = document.querySelector("#doc").files[0];
+      this.filename = doc.name;
+      reader.addEventListener("load", () => {
+        that.file = reader.result;
+        this.sendMessage();
+      });
+      reader.readAsDataURL(doc);
+    },
     sendMessage() {
       const socket = io.connect("http://localhost:3000");
-      socket.emit(
-        "message",
-        this.$store.state.userid,
-        this.$store.state.contact,
-        {
-          from: this.$store.state.userid,
-          to: this.$store.state.contact,
-          from_avatar: this.$store.state.avatar,
-          from_nickname: this.$store.state.nickname,
-          image: this.image,
-          msg: this.value,
-          send_time: Date.now()
-        }
-      );
+      if (
+        this.value == "" &&
+        this.audioFile == "" &&
+        this.image == "" &&
+        this.file == ""
+      ) {
+      } else {
+        socket.emit(
+          "message",
+          this.$store.state.userid,
+          this.$store.state.contact,
+          {
+            from: this.$store.state.userid,
+            to: this.$store.state.contact,
+            from_avatar: this.$store.state.avatar,
+            from_nickname: this.$store.state.nickname,
+            image: this.image,
+            audio: this.audio,
+            file: this.file,
+            msg: this.value,
+            filename: this.filename,
+            send_time: Date.now()
+          }
+        );
+      }
       this.value = "";
+      this.audioFile = "";
+      this.image = "";
+      this.file = "";
     },
     addEmoji(item) {
       this.value += item;
       this.emojiVisible = false;
     },
-    here() {
+    emojiChoose() {
       this.emojiVisible = !this.emojiVisible;
     },
     back() {
@@ -233,6 +345,34 @@ export default {
   overflow-y: scroll;
 }
 
+.audio-remind {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 3;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 300px;
+  height: 340px;
+  background-color: #f0f2f8;
+
+  .icon {
+    width: 100%;
+  }
+  .audio-text {
+    margin: 20px 0px;
+  }
+  .audio-choose {
+    display: flex;
+    justify-content: space-around;
+    width: 80%;
+    margin: 0 auto;
+  }
+}
+
 .option {
   position: fixed;
   bottom: 0;
@@ -250,7 +390,7 @@ export default {
     }
 
     .van-icon {
-      margin-left: 10px;
+      margin-left: 15px;
     }
   }
 }

@@ -1,19 +1,47 @@
 <template>
   <div>
     <div class="cell">
-      <div class="information">
-        <div class="triangle"></div>
-        <div
-          v-if="Message"
-          class="text"
-        >{{Message}}</div>
-        <div
-          v-else
-          class="text"
-        ><img
-            :src=Image
-            alt=""
-          ></div>
+      <div
+        v-if="Image"
+        class="image"
+      >
+        <div class="triangle">
+        </div>
+        <div class="text"><img :src=Image></div>
+      </div>
+      <div
+        v-if="Message"
+        class="information"
+      >
+        <div class="triangle">
+        </div>
+        <div class="text">{{Message}}</div>
+      </div>
+      <div
+        v-if="Audio"
+        class="information"
+      >
+        <div class="triangle">
+        </div>
+        <audio
+          :src="Audio"
+          controls
+        ></audio>
+      </div>
+      <div
+        v-if="File"
+        class="file"
+      >
+        <div class="triangle">
+        </div>
+        <van-icon
+          name="card"
+          size="60px"
+        ></van-icon>
+        <a
+          :href="File"
+          :download="filename"
+        >{{Filename}}</a>
       </div>
       <div class="avatar">
         <img :src="Avatar">
@@ -34,6 +62,15 @@ export default {
     },
     image: {
       type: String
+    },
+    audio: {
+      type: String
+    },
+    file: {
+      type: String
+    },
+    filename: {
+      type: String
     }
   },
   data() {
@@ -41,13 +78,76 @@ export default {
       Name: this.name,
       Avatar: this.avatar,
       Message: this.message,
-      Image: this.image
+      Image: this.image,
+      Audio: this.audio,
+      File: this.file,
+      Filename: this.filename
     };
   }
 };
 </script>
 
 <style lang="scss" scoped>
+.file {
+  width: 320px;
+  display: flex;
+  align-items: center;
+  justify-content: flex;
+  padding: 6px;
+  border-radius: 24px;
+  background-color: #f0f2f8;
+
+  .triangle {
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-left: 18px solid transparent;
+    border-right: 18px solid transparent;
+    border-bottom: 30px solid #f0f2f8;
+    transform: rotate(90deg);
+    right: 120px;
+    top: 20px;
+    z-index: -1;
+  }
+
+  a {
+    width: 100%;
+    font-size: 26px;
+    color: #333;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+audio {
+  width: 530px;
+  height: 80px;
+}
+
+.image {
+  .triangle {
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-left: 18px solid transparent;
+    border-right: 18px solid transparent;
+    border-bottom: 30px solid #f0f2f8;
+    transform: rotate(90deg);
+    right: 120px;
+    top: 20px;
+    z-index: -1;
+  }
+
+  img {
+    max-width: 360px;
+    max-height: 360px;
+    object-fit: fill;
+    padding: 20px;
+    border-radius: 24px;
+    background-color: #f0f2f8;
+  }
+}
+
 .avatar {
   width: 90px;
   height: 90px;
@@ -69,7 +169,7 @@ export default {
 }
 
 .information {
-  height: 80px;
+  height: 90px;
   display: flex;
   margin-left: 4px;
   text-align: left;
@@ -89,6 +189,7 @@ export default {
     transform: rotate(90deg);
     right: -15px;
     top: 10px;
+    z-index: -1;
   }
 }
 
@@ -96,9 +197,8 @@ export default {
   position: relative;
   display: flex;
   overflow: hidden;
-  height: 120px;
   padding: 10px 15px;
-  align-items: center;
+  align-items: flex-start;
   justify-content: flex-end;
 }
 

@@ -18,18 +18,27 @@
       type="primary"
       @click="insertChatRecord"
     >添加聊天记录</van-button>
+    <audio
+      controls
+      :src="audio"
+    >here</audio>
+    <button @click="start()">开始</button>
+    <button @click="stop()">结束</button>
   </div>
 </template>
 
+
 <script>
 import axios from "axios";
-// import io from "socket.io-client";
+import Recorder, { ENCODE_TYPE } from "recorderx";
 export default {
   data() {
     return {
       notification: "",
       userRecord: "",
-      chatRecord: ""
+      chatRecord: "",
+      audio: "",
+      recorder: ""
     };
   },
   mounted() {
@@ -39,8 +48,24 @@ export default {
     this.getChatRecord();
   },
   methods: {
+    start() {
+      this.$nextTick(() => {
+        this.recorder = new Recorder();
+        this.recorder.start();
+      });
+    },
+    stop() {
+      this.recorder.pause();
+      this.audio = URL.createObjectURL(
+        this.recorder.getRecord({
+          encodeTo: ENCODE_TYPE.WAV,
+          compressible: true
+        })
+      );
+      console.log(this.audio);
+      this.recorder.clear();
+    },
     socket() {
-      // const socket = io.connect("http://localhost:3000");
       console.log(this.$store.state.userid);
     },
     getData() {
