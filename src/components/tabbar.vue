@@ -11,10 +11,14 @@
         to="/Contact"
       >联系人</van-tabbar-item>
       <van-tabbar-item
-        icon="setting"
+        icon="star"
+        to="/Zonecell"
+      >空间</van-tabbar-item>
+      <van-tabbar-item
+        icon="manager"
         to="/Option"
-      >设置</van-tabbar-item>
-      <van-tabbar-item icon="star">空间</van-tabbar-item>
+      >我的</van-tabbar-item>
+
     </van-tabbar>
   </div>
 </template>

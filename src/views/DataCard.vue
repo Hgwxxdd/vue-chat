@@ -29,7 +29,7 @@
         icon="label-o"
       />
       <van-cell
-        :title="userData.gender === 0 ? '女' : '男'"
+        :title="userData.gender == 0 ? '女' : '男'"
         icon="flower-o"
       />
       <van-cell

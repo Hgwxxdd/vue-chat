@@ -31,7 +31,7 @@
     </div>
     <van-nav-bar
       fixed
-      title="标题"
+      title="5jk8bg"
       @click-left="back()"
     >
       <van-icon
@@ -182,7 +182,7 @@ export default {
       emoji: emoji,
       emojiVisible: false,
       image: "",
-      // audio: "",
+      audio: "",
       audioFile: "",
       recorder: "",
       audioVisible: false,
@@ -268,6 +268,7 @@ export default {
         this.image == "" &&
         this.file == ""
       ) {
+        console.log("");
       } else {
         socket.emit(
           "message",
@@ -279,7 +280,7 @@ export default {
             from_avatar: this.$store.state.avatar,
             from_nickname: this.$store.state.nickname,
             image: this.image,
-            audio: this.audio,
+            audio: this.audioFile,
             file: this.file,
             msg: this.value,
             filename: this.filename,
@@ -491,3 +492,5 @@ export default {
   }
 }
 </style>
+
+

@@ -3,6 +3,7 @@
     <van-nav-bar
       class="arrow"
       @click-left="onClickLeft"
+      title="个人信息"
     >
       <van-icon
         name="arrow-left"

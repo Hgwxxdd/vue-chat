@@ -1,6 +1,6 @@
 <template>
   <div>
-    <van-cell
+    <!-- <van-cell
       is-link
       center
       to="/userinformation"
@@ -11,35 +11,22 @@
           slot="icon"
         >
       </div>
-    </van-cell>
+    </van-cell> -->
     <van-cell
-      icon="manager-o"
-      title="账号管理"
+      icon="fire-o"
+      title="校友动态"
       center
       is-link
-      large
-      @click="hi"
-      to="/accountmanage"
+      to="/zone"
     />
     <van-cell
-      icon="location-o"
-      center
-      title="我的空间"
-      is-link
-    />
-    <van-cell
-      icon="location-o"
-      title="单元格"
+      icon="new-o"
+      title="校园新闻"
       center
       is-link
+      to="/zone"
     />
-    <van-cell
-      icon="location-o"
-      title="退出"
-      center
-      is-link
-    />
-    <tabbar :active=3></tabbar>
+    <tabbar :active=2></tabbar>
   </div>
 </template>
 
@@ -66,9 +53,9 @@ export default {
 
 <style lang="scss" scoped>
 .van-cell:first-child {
-  justify-content: flex-end;
-  align-items: center;
-  height: 75px;
+  // justify-content: flex-end;
+  // align-items: center;
+  // height: 75px;
 
   .img {
     width: 50px;

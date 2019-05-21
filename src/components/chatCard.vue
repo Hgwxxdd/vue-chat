@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     <div class="avatar">
       <img :src="Avatar">
     </div>
@@ -120,24 +120,12 @@ export default {
 }
 
 audio {
-  width: 530px;
+  width: 510px;
   height: 80px;
 }
 
 .image {
-  .triangle {
-    position: absolute;
-    width: 0;
-    height: 0;
-    border-left: 18px solid transparent;
-    border-right: 18px solid transparent;
-    border-bottom: 30px solid #f0f2f8;
-    transform: rotate(90deg);
-    right: 120px;
-    top: 20px;
-    z-index: -1;
-  }
-
+  margin-left: -10px;
   img {
     max-width: 360px;
     max-height: 360px;
@@ -197,7 +185,6 @@ audio {
   position: relative;
   display: flex;
   overflow: hidden;
-  padding: 10px 15px;
   align-items: flex-start;
   justify-content: flex-end;
 }
@@ -205,5 +192,10 @@ audio {
 .text {
   font-size: 28px;
   margin-left: 24px;
+}
+
+.container {
+  display: flex;
+  padding: 15px 0;
 }
 </style>

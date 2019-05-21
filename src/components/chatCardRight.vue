@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     <div class="cell">
       <div
         v-if="Image"
@@ -57,8 +57,7 @@ export default {
       type: String
     },
     avatar: {
-      type: String,
-      required: true
+      type: String
     },
     image: {
       type: String
@@ -197,7 +196,6 @@ audio {
   position: relative;
   display: flex;
   overflow: hidden;
-  padding: 10px 15px;
   align-items: flex-start;
   justify-content: flex-end;
 }
@@ -205,5 +203,9 @@ audio {
 .text {
   font-size: 28px;
   margin-left: 24px;
+}
+
+.container {
+  padding: 15px 0;
 }
 </style>

@@ -32,9 +32,12 @@
       <list
         v-for="(item, index) in searchList"
         @chatting="checkData(item)"
-        :avatar=item.avatar
-        :name=item.nickname
         :key="index"
+        :age=item.age
+        :avatar=item.avatar
+        :unique=item.unique
+        :gender=item.gender
+        :nickname=item.nickname
       ></list>
     </div>
   </div>
@@ -42,7 +45,7 @@
 
 <script>
 import axios from "axios";
-import list from "@/components/contactList";
+import list from "@/components/searchList";
 
 export default {
   components: {
@@ -57,12 +60,12 @@ export default {
     };
   },
   watch: {
-    userAccount: function(val) {
+    userAccount: function(user) {
       axios({
         method: "get",
         url: "http://localhost:3000/user/search",
         params: {
-          query: val
+          query: user
         }
       })
         .then(res => {

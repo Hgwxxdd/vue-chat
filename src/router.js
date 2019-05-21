@@ -6,9 +6,12 @@ import Register from '@/views/Register.vue'
 import UserInformation from '@/views/UserInformation.vue'
 
 import Chat from '@/views/Chat.vue'
+import Zone from '@/views/Zone.vue'
 import Mock from '@/views/Mock.vue'
 import Option from '@/views/Option.vue'
 import Contact from '@/views/Contact.vue'
+import ZoneEdit from '@/views/ZoneEdit.vue'
+import ZoneCell from '@/views/ZoneCell.vue'
 import Chatting from '@/views/Chatting.vue'
 import DataCard from '@/views/DataCard.vue'
 import AddContact from '@/views/AddContact.vue'
@@ -105,6 +108,20 @@ export default new Router({
       path: "/creategroup",
       name: "creategroup",
       component: CreateGroup
+    },
+    {
+      path: "/zone",
+      name: "zone",
+      component: Zone
+    },
+    {
+      path: "/zonecell",
+      name: "zonecell",
+      component: ZoneCell
+    },{
+      path: "/zoneedit",
+      name: "zoneedit",
+      component: ZoneEdit
     }
   ]
 })

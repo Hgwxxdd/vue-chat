@@ -16,12 +16,12 @@
 
     <div class="cell">
       <div class="avatar">
-        <img src="../assets/1.jpg">
+        <img :src="userData.avatar">
       </div>
       <div class="data">
         <div class="name">{{userData.nickname}}</div>
         <div class="sex">
-          <div class="gender">{{userData.grnder === 0 ? '女':'男'}}</div>
+          <div class="gender">{{userData.gender == 0 ? '女':'男'}}</div>
           <div class="age">{{userData.age}}</div>
         </div>
       </div>
@@ -61,7 +61,7 @@ export default {
       this.$router.push("/addcontact");
     },
     onClickRight() {
-      var id = this.$store.state.userid;
+      var id = localStorage.getItem("userid");
       var jwtAxios = axios.create({
         headers: { Authorization: this.$store.state.token }
       });
@@ -86,9 +86,10 @@ export default {
         userid: id,
         contact: this.userData.unique,
         from_nickname: this.$store.state.nickname,
-        msg: id + "请求加宁为好友",
+        msg: id + "请求加您为好友",
         send_time: Date.now()
       });
+      this.$router.push("/chat");
     },
     getData() {
       var id = this.$store.state.findId;

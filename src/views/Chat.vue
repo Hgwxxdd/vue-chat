@@ -101,10 +101,10 @@ export default {
       });
     },
     getContact() {
-      var id = this.$store.state.userid;
-      this.user = this.$store.state.userid;
+      var id = localStorage.getItem("userid");
+      var token = localStorage.getItem("token");
       var jwtAxios = axios.create({
-        headers: { Authorization: this.$store.state.token }
+        headers: { Authorization: token }
       });
       jwtAxios({
         url: "http://localhost:3000/user/notification",
@@ -114,7 +114,6 @@ export default {
         }
       })
         .then(res => {
-          // console.log(res.data);
           for (let i = 0; i < res.data.length; i++) {
             if (res.data[i].from == id) {
               this.unread += res.data[i].from_unread;
@@ -144,20 +143,21 @@ export default {
     },
     toChatting(user) {
       if (this.$store.state.userid == user.from) {
+        localStorage.setItem("contact", user.to);
         this.$store.state.contact = user.to;
       } else {
+        localStorage.setItem("contact", user.from);
         this.$store.state.contact = user.from;
       }
-      var id = this.$store.state.userid;
       var jwtAxios = axios.create({
-        headers: { Authorization: this.$store.state.token }
+        headers: { Authorization: localStorage.getItem("token") }
       });
       jwtAxios({
         url: "http://localhost:3000/user/unread",
         method: "post",
         params: {
-          userid: id,
-          contact: this.$store.state.contact,
+          userid: localStorage.getItem("userid"),
+          contact: localStorage.getItem("contact"),
           message_type: user.message_type
         }
       })

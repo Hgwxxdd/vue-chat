@@ -6,7 +6,7 @@ import 'vant/lib/index.css'
 import 'lib-flexible/flexible.js'
 // import socket from '../socket';
 
-import {Field, Button, Cell, CellGroup, Tabbar, TabbarItem, Icon, List, NavBar, SwitchCell, Actionsheet, Toast, Tab, Tabs, Search, Checkbox, CheckboxGroup} from 'vant'
+import {Field, Button, Cell, CellGroup, Tabbar, TabbarItem, Icon, List, NavBar, SwitchCell, Actionsheet, Toast, Tab, Tabs, Search, Checkbox, CheckboxGroup, DatetimePicker} from 'vant'
 Vue.use(Tab)
 Vue.use(Tabs)
 Vue.use(Cell)
@@ -22,7 +22,8 @@ Vue.use(CellGroup)
 Vue.use(SwitchCell)
 Vue.use(TabbarItem)
 Vue.use(Actionsheet)
-Vue.use(Checkbox).use(CheckboxGroup);
+Vue.use(DatetimePicker)
+Vue.use(Checkbox).use(CheckboxGroup)
 
 Vue.config.productionTip = false
 
