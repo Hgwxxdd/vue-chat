@@ -1,31 +1,54 @@
 <template>
-  <div>
-    <!-- <van-cell
-      is-link
-      center
-      to="/userinformation"
-    >
-      <div class="img">
-        <img
-          src="../assets/1.jpg"
-          slot="icon"
-        >
-      </div>
-    </van-cell> -->
-    <van-cell
-      icon="fire-o"
-      title="校友动态"
-      center
-      is-link
-      to="/zone"
-    />
-    <van-cell
-      icon="new-o"
-      title="校园新闻"
-      center
-      is-link
-      to="/zone"
-    />
+  <div class="container">
+    <van-nav-bar left-text="空间" />
+    <div class="group">
+      <van-cell-group>
+        <van-cell
+          icon="fire-o"
+          title="校友动态"
+          center
+          is-link
+          to="/zone"
+        />
+        <van-cell
+          icon="new-o"
+          title="校园新闻"
+          center
+          is-link
+          to="/news"
+        />
+        <van-cell
+          icon="contact"
+          title="校园通讯录"
+          center
+          is-link
+          to="/schoolcontact"
+        />
+      </van-cell-group>
+    </div>
+    <div class="group">
+      <van-cell-group>
+        <van-cell
+          icon="search"
+          title="搜一搜"
+          center
+          is-link
+          to="/addcontact"
+        />
+        <van-cell
+          icon="eye-o"
+          title="热门看点"
+          center
+          is-link
+        />
+        <van-cell
+          icon="comment-circle-o"
+          title="闲聊"
+          center
+          is-link
+        />
+      </van-cell-group>
+    </div>
     <tabbar :active=2></tabbar>
   </div>
 </template>
@@ -44,14 +67,16 @@ export default {
     };
   },
   methods: {
-    hi() {
-      console.log("hi");
-    }
+    hi() {}
   }
 };
 </script>
 
 <style lang="scss" scoped>
+.group:nth-child(3) {
+  margin-top: 50px;
+}
+
 .van-cell:first-child {
   // justify-content: flex-end;
   // align-items: center;
@@ -74,5 +99,9 @@ export default {
 .van-cell {
   text-align: left;
   height: 50px;
+}
+
+.van-nav-bar__text {
+  color: #333;
 }
 </style>

@@ -4,12 +4,14 @@
       class="cell"
       @click="click"
     >
-      <div class="avatar">
-        <img :src="Avatar">
-      </div>
-      <div class="information">
-        <div class="name">{{ Name }}</div>
-        <div class="a">{{ Message }}</div>
+      <div class="card-left">
+        <div class="avatar">
+          <img :src="Avatar">
+        </div>
+        <div class="information">
+          <div class="name">{{ Name }}</div>
+          <div class="a">{{ Message }}</div>
+        </div>
       </div>
       <div class="tip">
         <div class="updated">{{ Updated }}</div>
@@ -94,7 +96,10 @@ export default {
 
 .updated {
   width: 170px;
+  // padding-right: 10px;
   margin-bottom: 20px;
+  // margin-right: 30px;
+  text-align: left;
 }
 
 .unread {
@@ -103,11 +108,13 @@ export default {
   border-radius: 15px;
   background-color: #f44;
   color: #fff;
-  margin-left: 120px;
+
+  font-weight: 600;
+  line-height: 30px;
 }
 
 .information {
-  width: 450px;
+  width: 420px;
   height: 100px;
   text-align: left;
 
@@ -135,6 +142,7 @@ export default {
   overflow: hidden;
   height: 120px;
   padding: 10px 15px;
+  justify-content: space-between;
   align-items: center;
 }
 .cell::after {
@@ -147,5 +155,16 @@ export default {
   bottom: 0;
   transform: scaleY(0.5);
   border-bottom: 1px solid #ebedf0;
+}
+
+.card-left {
+  display: flex;
+}
+
+.tip {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-end;
 }
 </style>

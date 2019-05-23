@@ -2,6 +2,7 @@
   <div class="container">
     <div class="navbar">
       <van-nav-bar
+        fixed
         title="动态列表"
         right-text="发送动态"
         @click-left="back()"
@@ -78,9 +79,13 @@ export default {
   right: 0;
   bottom: 0;
   background-color: #f0f2f8;
+  overflow: scroll;
 
   .card {
     margin: 30px 0px;
+  }
+  .card:nth-child(2) {
+    margin-top: 120px;
   }
   .van-nav-bar__text {
     color: #333;

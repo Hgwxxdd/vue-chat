@@ -2,6 +2,7 @@
   <div>
     <van-nav-bar
       class="arrow"
+      title="账号管理"
       @click-left="onClickLeft"
     >
       <van-icon

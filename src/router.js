@@ -5,9 +5,13 @@ import Login from '@/views/Login.vue'
 import Register from '@/views/Register.vue'
 import UserInformation from '@/views/UserInformation.vue'
 
+import news1 from '@/views/news1'
+import news2 from '@/views/news2'
+import news3 from '@/views/news3'
 import Chat from '@/views/Chat.vue'
 import Zone from '@/views/Zone.vue'
 import Mock from '@/views/Mock.vue'
+import News from '@/views/News.vue'
 import Option from '@/views/Option.vue'
 import Contact from '@/views/Contact.vue'
 import ZoneEdit from '@/views/ZoneEdit.vue'
@@ -16,6 +20,7 @@ import Chatting from '@/views/Chatting.vue'
 import DataCard from '@/views/DataCard.vue'
 import AddContact from '@/views/AddContact.vue'
 import CreateGroup from '@/views/CreateGroup.vue'
+import schoolContact from '@/views/schoolContact.vue'
 import Notification from '@/views/Notification.vue'
 import AccountManage from '@/views/AccountManage.vue'
 import AddContactValidate from '@/views/AddContactValidate.vue'
@@ -122,6 +127,30 @@ export default new Router({
       path: "/zoneedit",
       name: "zoneedit",
       component: ZoneEdit
+    },
+    {
+      path: "/News",
+      name: "news",
+      component: News
+    },
+    {
+      path: "/news1",
+      name: "news1",
+      component: news1
+    },
+    {
+      path: "/news2",
+      name: "news2",
+      component: news2
+    },
+    {
+      path: "/news3",
+      name: "news3",
+      component: news3
+    }, {
+      path:"/schoolcontact",
+      name:"schoolContact",
+      component: schoolContact
     }
   ]
 })

@@ -1,44 +1,64 @@
 <template>
   <div>
-    <van-cell
-      is-link
-      center
-      to="/userinformation"
-    >
-      <div class="img">
-        <img
-          src="../assets/1.jpg"
-          slot="icon"
-        >
+    <van-cell-group>
+      <van-cell
+        is-link
+        center
+        to="/userinformation"
+      >
+        <div class="img">
+          <img
+            src="../assets/1.jpg"
+            slot="icon"
+          >
+        </div>
+      </van-cell>
+      <div class="group">
+        <van-switch-cell
+          border
+          v-model="disturb"
+          title="消息免打扰"
+        />
+        <van-switch-cell
+          border
+          v-model="enter"
+          title="回车键发送消息"
+        />
       </div>
-    </van-cell>
-    <van-cell
-      icon="manager-o"
-      title="账号管理"
-      center
-      is-link
-      large
-      @click="hi"
-      to="/accountmanage"
-    />
-    <van-cell
-      icon="location-o"
-      center
-      title="我的空间"
-      is-link
-    />
-    <van-cell
-      icon="location-o"
-      title="单元格"
-      center
-      is-link
-    />
-    <van-cell
-      icon="location-o"
-      title="退出"
-      center
-      is-link
-    />
+      <van-cell
+        center
+        is-link
+        title="关于校友圈"
+      />
+      <van-cell
+        center
+        is-link
+        title="切换账号"
+        @click="account()"
+      />
+      <van-cell
+        center
+        is-link
+        title="退出程序"
+        @click="exit()"
+      />
+    </van-cell-group>
+    <van-dialog
+      v-model="accountVisible"
+      title="提示"
+      message="确认切换账号？"
+      show-cancel-button
+      @confirm="back()"
+    >
+    </van-dialog>
+    <van-dialog
+      v-model="exitVisible"
+      title="提示"
+      message="确认退出程序？"
+      show-cancel-button
+      @confirm="back()"
+    >
+    </van-dialog>
     <tabbar :active=3></tabbar>
   </div>
 </template>
@@ -52,13 +72,21 @@ export default {
   },
   data() {
     return {
-      show: false,
-      checked: true
+      enter: true,
+      disturb: false,
+      exitVisible: false,
+      accountVisible: false
     };
   },
   methods: {
-    hi() {
-      console.log("hi");
+    back() {
+      this.$router.push("/login");
+    },
+    account() {
+      this.accountVisible = true;
+    },
+    exit() {
+      this.exitVisible = true;
     }
   }
 };
@@ -87,5 +115,9 @@ export default {
 .van-cell {
   text-align: left;
   height: 50px;
+}
+
+.group {
+  margin: 20px 0;
 }
 </style>
