@@ -147,6 +147,7 @@ export default {
   font-size: 30px;
   margin-left: 20px;
   font-weight: 600;
+  text-align: left;
 }
 .text {
   text-align: left;

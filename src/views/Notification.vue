@@ -53,6 +53,7 @@ export default {
         }
       })
         .then(res => {
+          console.log(res.data);
           this.list = res.data;
         })
         .catch(err => {

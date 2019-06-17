@@ -1,18 +1,29 @@
 <template>
   <div>
     <navbar pageName='联系人'></navbar>
-    <h1>contact</h1>
+    <van-contact-card @click="add()" />
+
     <tabbar :active=1></tabbar>
   </div>
 </template>
 
 <script>
+import contactlist from "@/components/contactList.vue";
 import tabbar from "@/components/tabbar.vue";
 import navbar from "@/components/navbar.vue";
 export default {
   components: {
     tabbar,
-    navbar
+    navbar,
+    contactlist
+  },
+  data() {
+    return {};
+  },
+  methods: {
+    add() {
+      this.$router.push("/addcontact");
+    }
   }
 };
 </script>

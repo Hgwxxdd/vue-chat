@@ -79,7 +79,8 @@ export default {
   },
   methods: {
     onClickLeft() {
-      this.$router.push("/chat");
+      // this.$router.push("/chat");
+      this.$router.go(-1);
     },
     checkData(user) {
       console.log(user._id);

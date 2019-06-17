@@ -94,17 +94,19 @@ export default {
 header {
   position: relative;
   height: 500px;
-  background-color: #999;
   display: flex;
   align-items: center;
   flex-direction: column;
   justify-content: center;
+  background-image: url("../../public/background.jpg");
+  background-size: cover;
+
   .avatar {
     width: 150px;
     height: 150px;
     border-radius: 75px;
     background-color: #eee;
-    margin: 50px 0px;
+    margin: 50px 0px 20px 0px;
 
     img {
       width: 100%;
@@ -115,7 +117,8 @@ header {
   .name {
     height: 50px;
     font-weight: 600;
-    font-size: 30px;
+    font-size: 32px;
+    color: #000;
   }
   .tips {
     height: 50px;

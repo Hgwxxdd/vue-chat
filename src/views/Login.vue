@@ -58,9 +58,14 @@ export default {
             localStorage.setItem("avatar", res.headers.avatar);
             localStorage.setItem("nickname", res.headers.nickname);
             localStorage.setItem("token", res.headers.authorization);
+            localStorage.setItem("gender", res.headers.sex);
+            localStorage.setItem("age", res.headers.age);
+
             this.$store.state.userid = res.headers.userid;
             this.$store.state.avatar = res.headers.avatar;
             this.$store.state.nickname = res.headers.nickname;
+            this.$store.state.gender = res.headers.gender;
+            this.$store.state.age = res.headers.age;
             this.$store.state.token = res.headers.authorization;
             this.$router.push("/chat");
           }

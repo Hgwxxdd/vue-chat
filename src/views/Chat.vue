@@ -15,7 +15,7 @@
       :key="index"
       @chatting="toChatting(item)"
     ></contact>
-    <van-actionsheet
+    <van-action-sheet
       v-model="show"
       :actions="actions"
       @select="onSelect"

@@ -8,7 +8,7 @@
       >
         <div class="img">
           <img
-            src="../assets/1.jpg"
+            :src="avatar"
             slot="icon"
           >
         </div>
@@ -72,11 +72,15 @@ export default {
   },
   data() {
     return {
+      avatar: "",
       enter: true,
       disturb: false,
       exitVisible: false,
       accountVisible: false
     };
+  },
+  mounted() {
+    this.avatar = localStorage.getItem("avatar");
   },
   methods: {
     back() {
@@ -105,6 +109,7 @@ export default {
     border-radius: 25px;
     object-fit: cover;
     background-color: #333;
+    border: 1px solid #f2f0f8;
     img {
       width: 100%;
       height: 100%;
